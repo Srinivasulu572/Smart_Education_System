@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartLearn | Performance</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: Arial, sans-serif; background: #f1f5fb; color: #17213b; }
+        header { background: #fff; padding: 20px 7%; box-shadow: 0 2px 12px #17213b12; }
+        .brand { font-size: 29px; font-weight: 800; }
+        .brand span { color: #3157d5; }
+        main { max-width: 800px; margin: 45px auto; padding: 0 20px; }
+        .card { background: white; border-radius: 18px; padding: 35px; box-shadow: 0 10px 35px #17213b12; }
+        .tag { display: inline-block; padding: 7px 13px; border-radius: 20px; background: #e2eaff; color: #3157d5; font-size: 12px; font-weight: bold; }
+        h1 { margin-bottom: 8px; }
+        .muted { color: #68758b; line-height: 1.7; }
+        .grade { margin: 25px 0; padding: 25px; text-align: center; background: #f2f6ff; border-radius: 14px; }
+        .grade strong { color: #3157d5; font-size: 48px; }
+        .grade span { color: #68758b; }
+        li { margin: 12px 0; line-height: 1.6; }
+        .button { display: inline-block; margin-top: 22px; padding: 14px 20px; background: #3157d5; color: white; border-radius: 9px; text-decoration: none; font-weight: bold; }
+        .button:hover { background: #2443b5; }
+        @media(max-width: 600px) { .card { padding: 23px 18px; } }
+    </style>
+</head>
+<body>
+    <header><div class="brand">Smart<span>Learn</span></div></header>
+    <main>
+        <section class="card">
+            <span class="tag">YOUR RESULT</span>
+            <h1>Student Performance</h1>
+            <p class="muted">Here is your estimated mathematics grade and some suggestions for improving your learning.</p>
+
+            {% if error %}
+                <p>{{ error }}</p>
+            {% elif grade != None %}
+                <div class="grade">
+                    <p>Estimated Final Grade</p>
+                    <strong>{{ grade }}</strong> <span>/ 20</span>
+                </div>
+
+                <h2>Your Personalized Recommendations</h2>
+                {% if recommendations %}
+                    <ul>
+                        {% for recommendation in recommendations %}
+                            <li>{{ recommendation }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="muted">Keep practising regularly and reviewing your progress.</p>
+                {% endif %}
+            {% else %}
+                <p class="muted">No prediction is available yet. Return to the homepage to enter your details.</p>
+            {% endif %}
+
+            <a class="button" href="/">← Back to Home</a>
+            <a class="button" href="/history/">View History</a>
+        </section>
+    </main>
+</body>
+</html>

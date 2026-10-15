@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartLearn | History</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: Arial, sans-serif; background: #f1f5fb; color: #17213b; }
+        header { background: white; padding: 20px 7%; box-shadow: 0 2px 12px #17213b12; }
+        .brand { font-size: 29px; font-weight: 800; }
+        .brand span { color: #3157d5; }
+        main { max-width: 1000px; margin: 45px auto; padding: 0 20px; }
+        .card { background: white; padding: 30px; border-radius: 18px; box-shadow: 0 10px 35px #17213b12; }
+        h1 { margin-top: 0; }
+        .muted { color: #68758b; line-height: 1.7; }
+        .table-wrap { overflow-x: auto; margin-top: 25px; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th, td { text-align: left; padding: 15px 12px; border-bottom: 1px solid #e1e7f0; }
+        th { background: #f2f6ff; color: #3157d5; font-size: 13px; }
+        td { font-size: 14px; }
+        .empty { padding: 30px; background: #f7f9fd; border-radius: 10px; text-align: center; color: #68758b; }
+        .button { display: inline-block; margin-top: 24px; padding: 14px 20px; background: #3157d5; color: white; border-radius: 9px; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <header><div class="brand">Smart<span>Learn</span></div></header>
+    <main>
+        <section class="card">
+            <h1>Prediction History</h1>
+            <p class="muted">Review your previous student performance predictions.</p>
+
+            {% if history %}
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Study Time</th>
+                                <th>Failures</th>
+                                <th>Absences</th>
+                                <th>G1</th>
+                                <th>G2</th>
+                                <th>Predicted Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in history %}
+                                <tr>
+                                    <td>{{ item.created_at|date:"d M Y, H:i" }}</td>
+                                    <td>{{ item.studytime }}</td>
+                                    <td>{{ item.failures }}</td>
+                                    <td>{{ item.absences }}</td>
+                                    <td>{{ item.G1 }}</td>
+                                    <td>{{ item.G2 }}</td>
+                                    <td>{{ item.predicted_grade }}/20</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="empty">
+                    <h3>No prediction history yet</h3>
+                    <p>Once predictions are saved to the database, they will appear here.</p>
+                </div>
+            {% endif %}
+
+            <a class="button" href="/">← Back to Home</a>
+        </section>
+    </main>
+</body>
+</html>

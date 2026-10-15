@@ -1,0 +1,167 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartLearn | Home</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5fb;
+            color: #17213b;
+        }
+        .navbar {
+            background: #fff;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 12px #17213b12;
+        }
+        .brand { font-size: 30px; font-weight: 800; }
+        .brand span { color: #3157d5; }
+        nav a {
+            color: #33415c;
+            text-decoration: none;
+            margin-left: 22px;
+            font-weight: 600;
+        }
+        nav a:hover { color: #3157d5; }
+        .container { max-width: 950px; margin: 45px auto; padding: 0 20px; }
+        .hero { text-align: center; margin-bottom: 30px; }
+        .hero h1 { font-size: 42px; margin: 15px 0; }
+        .hero p { color: #68758b; line-height: 1.7; }
+        .tag {
+            color: #3157d5;
+            background: #e2eaff;
+            padding: 7px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .card {
+            background: #fff;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 10px 35px #17213b12;
+        }
+        .card h2 { margin-top: 0; }
+        .subtitle { color: #68758b; margin-bottom: 25px; }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+        label { display: block; font-weight: bold; margin-bottom: 8px; }
+        input, select {
+            width: 100%;
+            height: 49px;
+            padding: 12px;
+            border: 1px solid #d5deed;
+            border-radius: 9px;
+            background: #fff;
+            font-size: 15px;
+        }
+        input:focus, select:focus {
+            outline: 2px solid #c6d4ff;
+            border-color: #3157d5;
+        }
+        .full { grid-column: 1 / -1; }
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 16px;
+            border: none;
+            border-radius: 9px;
+            background: #3157d5;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover { background: #2443b5; }
+        .message {
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 8px;
+            background: #fff0f0;
+            color: #a52828;
+        }
+        footer { text-align: center; padding: 25px; color: #68758b; font-size: 13px; }
+        @media(max-width: 650px) {
+            .navbar { padding: 18px 5%; flex-wrap: wrap; gap: 14px; }
+            .brand { font-size: 25px; }
+            nav a { margin-left: 0; margin-right: 14px; }
+            .hero h1 { font-size: 32px; }
+            .card { padding: 23px 18px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .full { grid-column: auto; }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="brand">Smart<span>Learn</span></div>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/history/">History</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <span class="tag">AI-POWERED EDUCATION</span>
+            <h1>Your Learning Journey,<br>Made Smarter.</h1>
+            <p>Predict your academic performance and receive personalized suggestions to improve your results.</p>
+        </section>
+
+        <section class="card">
+            <h2>Student Performance Predictor</h2>
+            <p class="subtitle">Enter your academic details below.</p>
+
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div class="form-grid">
+                    <div>
+                        <label for="studytime">Weekly Study Time</label>
+                        <select id="studytime" name="studytime" required>
+                            <option value="">Select study time</option>
+                            <option value="1">Less than 2 hours</option>
+                            <option value="2">2–5 hours</option>
+                            <option value="3">5–10 hours</option>
+                            <option value="4">More than 10 hours</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="failures">Past Class Failures</label>
+                        <input id="failures" name="failures" type="number" min="0" max="4" placeholder="e.g. 0" required>
+                    </div>
+                    <div>
+                        <label for="absences">Number of Absences</label>
+                        <input id="absences" name="absences" type="number" min="0" placeholder="e.g. 3" required>
+                    </div>
+                    <div>
+                        <label for="G1">First Period Grade (0–20)</label>
+                        <input id="G1" name="G1" type="number" min="0" max="20" step="any" placeholder="e.g. 12" required>
+                    </div>
+                    <div class="full">
+                        <label for="G2">Second Period Grade (0–20)</label>
+                        <input id="G2" name="G2" type="number" min="0" max="20" step="any" placeholder="e.g. 15" required>
+                    </div>
+                </div>
+                <button type="submit">Predict My Grade →</button>
+            </form>
+
+            {% if error %}
+                <div class="message">{{ error }}</div>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer>SmartLearn · AI-Based Smart Education and Personalized Learning System</footer>
+</body>
+</html>

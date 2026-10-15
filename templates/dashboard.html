@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #173b70;
+            color: white;
+            padding: 24px 7%;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+        }
+
+        nav {
+            margin-top: 18px;
+        }
+
+        nav a {
+            color: white;
+            margin-right: 20px;
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #0000000c;
+        }
+
+        .card h3 {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        .number {
+            font-size: 30px;
+            font-weight: bold;
+            color: #173b70;
+        }
+
+        .section {
+            margin-top: 28px;
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 13px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+        }
+
+        th {
+            background: #eff6ff;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 16px;
+            background: #173b70;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 7px;
+            text-decoration: none;
+        }
+
+        .empty {
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <h1>Student Dashboard</h1>
+    <p>Track your predicted grades and learning progress.</p>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/history/">Prediction History</a>
+        <a href="/dashboard/">Dashboard</a>
+    </nav>
+</header>
+
+<main>
+    <div class="cards">
+        <div class="card">
+            <h3>Total Predictions</h3>
+            <div class="number">{{ total_predictions }}</div>
+        </div>
+
+        <div class="card">
+            <h3>Average Predicted Grade</h3>
+            <div class="number">{{ average_grade }} / 20</div>
+        </div>
+
+        <div class="card">
+            <h3>Latest Predicted Grade</h3>
+            <div class="number">
+                {% if latest %}
+                    {{ latest.predicted_grade }} / 20
+                {% else %}
+                    --
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Change Since Previous Prediction</h3>
+            <div class="number">
+                {% if progress != None %}
+                    {% if progress > 0 %}+{% endif %}{{ progress }}
+                {% else %}
+                    --
+                {% endif %}
+            </div>
+            <p>
+                {% if progress != None %}
+                    {% if progress > 0 %}
+                        Higher predicted grade
+                    {% elif progress < 0 %}
+                        Lower predicted grade
+                    {% else %}
+                        No change
+                    {% endif %}
+                {% else %}
+                    Make at least two predictions to compare.
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <section class="section">
+        <h2>Recent Predictions</h2>
+
+        {% if recent_records %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Study Time</th>
+                        <th>Absences</th>
+                        <th>G1</th>
+                        <th>G2</th>
+                        <th>Predicted Grade</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for item in recent_records %}
+                        <tr>
+                            <td>{{ item.created_at|date:"d M Y, H:i" }}</td>
+                            <td>{{ item.studytime }}</td>
+                            <td>{{ item.absences }}</td>
+                            <td>{{ item.G1 }}</td>
+                            <td>{{ item.G2 }}</td>
+                            <td>{{ item.predicted_grade }} / 20</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="empty">
+                No predictions yet. Submit the student performance form first.
+            </p>
+        {% endif %}
+
+        <a class="button" href="/">Make a New Prediction</a>
+    </section>
+</main>
+</body>
+</html>
